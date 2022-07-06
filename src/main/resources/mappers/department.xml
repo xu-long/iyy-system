@@ -1,0 +1,11 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mushan.mapper.DepartmentMapper">
+    <select id="selectByIdDepartment" resultType="com.mushan.entity.Department">
+        SELECT * FROM tb_dept WHERE dept_id = #{id}
+    </select>
+    <select id="getDepartmentList" resultType="com.mushan.entity.Department">
+        SELECT * FROM tb_dept
+    </select>
+</mapper>

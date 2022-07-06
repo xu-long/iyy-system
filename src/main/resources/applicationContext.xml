@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 3、开SpringMVC启注解模式 -->
+    <context:component-scan base-package="com.mushan" />
+    <mvc:annotation-driven>
+        <!-- 解决响应中文乱码问题 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=utf-8</value>
+                        <!-- 6、JSON（Jackson）序列化输出配置 -->
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <mvc:default-servlet-handler />
+    <!-- Mybaits与Spring的整合配置 -->
+    <!-- 配置数据源 -->
+<!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+<!--        <property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+        <property name="url" value="jdbc:mysql://localhost:3306/iyy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true" />
+<!--        <property name="username" value="mushan" />-->
+<!--        <property name="password" value="mushan" />-->
+        <property name="username" value="root" />
+        <property name="password" value="iyy2022_" />
+<!--        <property name="initialSize" value="5" />-->
+<!--        <property name="maxActive" value="20" />-->
+     </bean>
+    <!-- 3、SqlSessionFactoryBean用户根据配置信息创建SqlSessionFactory -->
+    <!-- 原生Mybaits与Spring整合
+        <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    -->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--    <bean id="sessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">-->
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:mappers/*.xml" />
+        <!-- 5、指定Mybatis配置文件地址 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+    </bean>
+    <!-- 4、配置Mapper扫描器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.mushan.mapper" />
+    </bean>
+    <!-- 4、声明式事务配置 -->
+    <bean id="transactionManage" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManage"/>
+</beans>
