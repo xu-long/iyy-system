@@ -1,8 +1,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mushan.mapper.EmployeeMapper">
-    <select id="selectEmployee" resultType="com.mushan.entity.Employee">
+<mapper namespace="com.iyy.mapper.EmployeeMapper">
+    <select id="selectEmployee" resultType="com.iyy.entity.Employee">
         SELECT * FROM tb_emp
         <where>
             <if test="dId != null and dId != 0">
@@ -13,16 +13,16 @@
             </if>
         </where>
     </select>
-    <select id="selectByIdEmployee" resultType="com.mushan.entity.Employee">
+    <select id="selectByIdEmployee" resultType="com.iyy.entity.Employee">
         SELECT * FROM tb_emp WHERE emp_id = #{id}
     </select>
-    <insert id="insertEmployee" parameterType="com.mushan.entity.Employee">
+    <insert id="insertEmployee" parameterType="com.iyy.entity.Employee">
         INSERT INTO tb_emp(emp_name, gender, email, d_id) VALUES (#{empName}, #{gender}, #{email}, #{dId});
     </insert>
     <delete id="deleteEmployee" parameterType="java.lang.Integer">
         DELETE FROM tb_emp WHERE emp_id = #{id}
     </delete>
-    <update id="updateEmployee" parameterType="com.mushan.entity.Employee">
+    <update id="updateEmployee" parameterType="com.iyy.entity.Employee">
         UPDATE tb_emp SET emp_name = #{empName}, gender = #{gender}, email = #{email}, d_id = #{dId} WHERE emp_id = #{empId};
     </update>
     <delete id="batchDeleteEmployee" parameterType="java.util.List">
