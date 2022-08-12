@@ -44,4 +44,18 @@
         <filter-name>SimpleCorsFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!-- token 验证 -->
+    <filter>
+        <filter-name>TokenCheckFilter</filter-name>
+        <filter-class>com.iyy.filter.PermissionCheck</filter-class>
+        <init-param>
+            <param-name>isCross</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>TokenCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

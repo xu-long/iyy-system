@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,31 +41,30 @@ public class LoginController {
     public Map<String, Object> login(UserLoginCommand userLoginCommand) {
         Map<String, Object> map = new HashMap<>();
         try {
-
             log.info("{}用户登录请求", userLoginCommand.getUserName());
             User user = new User();
             user.setUserName(userLoginCommand.getUserName());
             user.setUserPassword(userLoginCommand.getPassWord());
             LoginInfo login = loginService.login(user);
             if(ObjectUtil.isNotEmpty(login)){
-                String token = AesEncryptUtil.encrypt(JSON.toJSONString(login)).trim();
-                Map<String, String> result = new HashMap<>();
-                result.put("token", token);
+                Map<String, Object> result = new HashMap<>();
+                result.put("token", login.getToken());
+                result.put("loginUser", login);
                 map.put("result", result);
                 map.put("code", StatusConstant.successCode);
-                map.put("msg", "登录成功！");
+                map.put("message", "登录成功！");
             }else{
                 map.put("code", StatusConstant.failCode);
-                map.put("msg", "登录失败！");
+                map.put("message", "登录失败！");
             }
 
         } catch (BussinessException e) {
             map.put("code", StatusConstant.failCode);
-            map.put("msg", e.getMsg());
+            map.put("message", e.getMsg());
             e.printStackTrace();
         } catch (Exception e){
             map.put("code", StatusConstant.failCode);
-            map.put("msg", e.getMessage());
+            map.put("message", e.getMessage());
             e.printStackTrace();
         }
         return map;
@@ -75,10 +77,13 @@ public class LoginController {
      * @return
      */
     @PostMapping("/logout")
-    public Map<String, Object> logout(UserLoginCommand userInfo) {
+    public Map<String, Object> logout(ServletRequest servletRequest) {
         Map<String, Object> map = new HashMap<>();
         try {
-            System.out.println(JSON.toJSON(userInfo));
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            //获取token 验证登录
+            String accessToken = request.getHeader("Access-Token");
+            System.out.println(JSON.toJSON(accessToken));
 
             map.put("code", "1");
             map.put("message", "退出成功");
