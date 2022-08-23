@@ -1,4 +1,4 @@
-package com.iyy.vo;
+package com.iyy.command;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

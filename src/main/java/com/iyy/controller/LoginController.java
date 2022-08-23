@@ -6,16 +6,14 @@ import com.iyy.constant.StatusConstant;
 import com.iyy.entity.User;
 import com.iyy.service.LoginService;
 import com.iyy.utils.exception.BussinessException;
-import com.iyy.utils.tools.AesEncryptUtil;
 import com.iyy.vo.LoginInfo;
-import com.iyy.vo.UserLoginCommand;
+import com.iyy.command.UserLoginCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +90,34 @@ public class LoginController {
             map.put("msg", e.getMsg());
             e.printStackTrace();
         }
+        return map;
+    }
+
+    /**
+     * 验证登录失败
+     * @param servletRequest
+     * @return
+     */
+    @PostMapping("/checkTokenFailPost")
+    public Map<String, Object> checkTokenFailPost(ServletRequest servletRequest) {
+        log.info("进入转发方法");
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "10000");
+        map.put("message", "验证登录失败");
+        return map;
+    }
+
+    /**
+     * 验证登录失败
+     * @param servletRequest
+     * @return
+     */
+    @GetMapping("/checkTokenFailGet")
+    public Map<String, Object> checkTokenFailGet(ServletRequest servletRequest) {
+        log.info("进入转发方法");
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "10000");
+        map.put("message", "验证登录失败");
         return map;
     }
 

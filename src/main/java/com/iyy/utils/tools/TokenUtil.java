@@ -7,6 +7,7 @@ import com.iyy.entity.User;
 import io.jsonwebtoken.Jwts;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class TokenUtil {
 
     //设置过期时间
-    private static final long EXPIRE_DATE = 1000 * 60 * 60 * 12;
+    private static final long EXPIRE_DATE = 1000 * 60 * 60 * 1;
     //token秘钥
     private static final String TOKEN_SECRET = "ZCEQIUBFKSJBFJH2020BQWE";
 
@@ -34,7 +35,7 @@ public class TokenUtil {
             //过期时间
             Date date = new Date(System.currentTimeMillis() + EXPIRE_DATE);
             //秘钥及加密算法
-            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+            Algorithm algorithm = Algorithm.HMAC256(DatatypeConverter.parseBase64Binary(TOKEN_SECRET));
             //设置头部信息
             Map<String,Object> header = new HashMap<>();
             header.put("typ","JWT");
@@ -62,7 +63,7 @@ public class TokenUtil {
             return false;
         }
         try {
-            Jwts.parser().setSigningKey(TOKEN_SECRET).parseClaimsJws(jwtToken);
+            Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(TOKEN_SECRET)).parseClaimsJws(jwtToken);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

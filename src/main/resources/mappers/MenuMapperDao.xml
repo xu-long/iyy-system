@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.MenuMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.Menu">
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
+    <result column="menu_component" jdbcType="VARCHAR" property="menuComponent" />
+    <result column="menu_ redirect" jdbcType="VARCHAR" property="menuRedirect" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.iyy.entity.Menu">
+    <result column="extend_info" jdbcType="LONGVARCHAR" property="extendInfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, parent_id, menu_name, menu_url, menu_icon, menu_component, "menu_ redirect", 
+    create_user, create_date
+  </sql>
+  <sql id="Blob_Column_List">
+    extend_info
+  </sql>
+
+  <select id="queryUserMenu" resultMap="BaseResultMap">
+    SELECT
+      me.*
+    FROM
+      tb_menu me
+        INNER JOIN tb_role_menu rm ON me.menu_id = rm.menu_id
+        INNER JOIN tb_user_role ur ON rm.role_id = ur.role_id
+    WHERE
+      ur.user_id = #{userId}
+  </select>
+
+</mapper>

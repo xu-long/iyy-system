@@ -10,6 +10,7 @@
         <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
         <result column="create_user" jdbcType="VARCHAR" property="createUser" />
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     </resultMap>
   <select id="queryUserByUserNamePassword" resultMap="BaseResultMap">
         select

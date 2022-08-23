@@ -37,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
             loginInfo.setLoginDate(new Date());
             String token = TokenUtil.createToken(user);
             loginInfo.setToken(token);
+            log.info("createToken:{}", token);
         }
         log.info("loginUserResult:{}", JSON.toJSONString(loginInfo));
         return loginInfo;

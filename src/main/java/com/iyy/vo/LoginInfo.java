@@ -29,6 +29,11 @@ public class LoginInfo implements Serializable {
     private String userNickname;
 
     /**
+     * 用户手机号码
+     */
+    private String userMobile;
+
+    /**
      * 登录时间
      */
     private Date loginDate;
@@ -37,4 +42,9 @@ public class LoginInfo implements Serializable {
      * token
      */
     private String token;
+
+    /**
+     * token
+     */
+    private String remarks;
 }

@@ -37,7 +37,7 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 <!--        <property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
-        <property name="url" value="jdbc:mysql://192.168.16.150:3306/iyy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true" />
+        <property name="url" value="jdbc:mysql://192.168.0.105:3306/iyy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true" />
 <!--        <property name="username" value="mushan" />-->
 <!--        <property name="password" value="mushan" />-->
         <property name="username" value="iyy" />

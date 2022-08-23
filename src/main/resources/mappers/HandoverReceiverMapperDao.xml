@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.HandoverReceiverMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.vo.HandoverReceiverInfo">
+    <id column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="handover_user" jdbcType="VARCHAR" property="handoverUser" />
+    <result column="receiver_user" jdbcType="VARCHAR" property="receiverUser" />
+    <result column="handover_amount" jdbcType="DECIMAL" property="handoverAmount" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    record_id, handover_user, receiver_user, handover_amount, remarks, create_user, create_date
+  </sql>
+  <select id="queryUserHandoverReceiverInfo" resultMap="BaseResultMap">
+    select * from tb_handover_receiver where handover_user_id = #{userId}
+  </select>
+</mapper>

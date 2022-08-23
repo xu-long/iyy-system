@@ -34,6 +34,7 @@ public class PermissionCheck implements Filter {
         noCheckUris.add("/");
         noCheckUris.add("/login/logout");
         noCheckUris.add("/login/login");
+        noCheckUris.add("/login/checkTokenFail");
         boolean bool = false;
         if(noCheckUris.contains(request.getRequestURI())){
             bool = true;
@@ -41,13 +42,24 @@ public class PermissionCheck implements Filter {
             log.info("请求路径：{}", JSON.toJSONString(request.getRequestURI()));
             //获取token 验证登录
             String accessToken = request.getHeader("Access-Token");
-            log.info("过滤器Access-Token:{}", JSON.toJSONString(accessToken));
-            bool =TokenUtil.checkToken(accessToken);
+            log.info("过滤器Access-Token:{}", accessToken);
+            try {
+                bool =TokenUtil.checkToken(accessToken);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            log.info("log-------:{}", bool);
         }
         if(bool){
             filterChain.doFilter(servletRequest, servletResponse);
         }else{
-            response.setStatus(404);
+            String method = request.getMethod();
+            if("POST".equals(method)){
+                request.getRequestDispatcher("/login/checkTokenFailPost").forward(request, response);
+            }else{
+                request.getRequestDispatcher("/login/checkTokenFailGet").forward(request, response);
+            }
+
         }
     }
 

@@ -44,6 +44,11 @@ public class User {
     private Date createDate;
 
     /**
+     * 备注
+     */
+    private String remarks;
+
+    /**
      * 用户头像
      */
     private byte[] userImg;
@@ -174,6 +179,22 @@ public class User {
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    /**
+     * 获取备注
+     * @return remarks 备注
+     */
+    public String getRemarks() {
+        return remarks;
+    }
+
+    /**
+     * 设置备注
+     * @param remarks 备注
+     */
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
     }
 
     /**
