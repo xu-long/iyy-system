@@ -34,6 +34,11 @@ public class User {
     private String userNickname;
 
     /**
+     * 店铺ID
+     */
+    private Integer shopId;
+
+    /**
      * 创建用户
      */
     private String createUser;
@@ -147,6 +152,22 @@ public class User {
      */
     public void setUserNickname(String userNickname) {
         this.userNickname = userNickname == null ? null : userNickname.trim();
+    }
+
+    /**
+     * 获取店铺ID
+     * @return shop_id 店铺ID
+     */
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    /**
+     * 设置店铺ID
+     * @param shopId 店铺ID
+     */
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
     /**

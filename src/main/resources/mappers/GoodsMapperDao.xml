@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.GoodsMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_sku" jdbcType="VARCHAR" property="goodsSku" />
+    <result column="goods_type_id" jdbcType="INTEGER" property="goodsTypeId" />
+    <result column="goods_brand_id" jdbcType="INTEGER" property="goodsBrandId" />
+    <result column="goods_spec" jdbcType="VARCHAR" property="goodsSpec" />
+    <result column="goods_weight" jdbcType="DOUBLE" property="goodsWeight" />
+    <result column="goods_quantity" jdbcType="INTEGER" property="goodsQuantity" />
+    <result column="goods_unit" jdbcType="VARCHAR" property="goodsUnit" />
+    <result column="piece_weight" jdbcType="DOUBLE" property="pieceWeight" />
+    <result column="goods_manufacture" jdbcType="VARCHAR" property="goodsManufacture" />
+    <result column="sales_method" jdbcType="VARCHAR" property="salesMethod" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.iyy.entity.Goods">
+    <result column="goods_img" jdbcType="LONGVARBINARY" property="goodsImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, goods_name, goods_sku, goods_type_id, goods_brand_id, goods_spec, goods_weight, 
+    goods_quantity, goods_unit, piece_weight, goods_manufacture, sales_method, create_user, 
+    create_date
+  </sql>
+  <sql id="Blob_Column_List">
+    goods_img
+  </sql>
+
+  <select id="queryGoodsList" resultMap="BaseResultMap">
+    select
+        *
+    from
+        tb_goods
+  </select>
+
+</mapper>

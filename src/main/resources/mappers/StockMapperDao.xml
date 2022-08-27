@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.StockMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.Stock">
+    <id column="stock_id" jdbcType="INTEGER" property="stockId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_sku" jdbcType="VARCHAR" property="goodsSku" />
+    <result column="stock_weight" jdbcType="DOUBLE" property="stockWeight" />
+    <result column="stock_quantity" jdbcType="INTEGER" property="stockQuantity" />
+    <result column="putin_weight" jdbcType="DOUBLE" property="putinWeight" />
+    <result column="putin_quantity" jdbcType="INTEGER" property="putinQuantity" />
+    <result column="put_weight" jdbcType="DOUBLE" property="putWeight" />
+    <result column="put_quantity" jdbcType="INTEGER" property="putQuantity" />
+    <result column="putout_weight" jdbcType="DOUBLE" property="putoutWeight" />
+    <result column="putout_quantity" jdbcType="INTEGER" property="putoutQuantity" />
+    <result column="piece_weight" jdbcType="DOUBLE" property="pieceWeight" />
+    <result column="manufacture_date" jdbcType="TIMESTAMP" property="manufactureDate" />
+    <result column="overdue_date" jdbcType="TIMESTAMP" property="overdueDate" />
+    <result column="purchase_price" jdbcType="DECIMAL" property="purchasePrice" />
+    <result column="purchase_amount" jdbcType="DECIMAL" property="purchaseAmount" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stock_id, goods_id, goods_sku, stock_weight, stock_quantity, putin_weight, putin_quantity,
+    put_weight, put_quantity, putout_weight, putout_quantity, piece_weight, manufacture_date, 
+    overdue_date, purchase_price, purchase_amount, shop_id, create_user, create_date, 
+    modify_user, modify_date
+  </sql>
+  <select id="queryStockList" resultType="com.iyy.vo.StockListInfo" parameterType="com.iyy.service.params.QueryStockListParams">
+    SELECT
+      st.stock_id as stockId,
+      st.goods_id as goodsId,
+      st.goods_sku as goodsSku,
+      st.stock_weight as stockWeight,
+      st.stock_quantity as stockQuantity,
+      st.putin_weight as putinWeight,
+      st.putin_quantity as putinQuantity,
+      st.put_weight as putWeight,
+      st.put_quantity as putQuantity,
+      st.putout_weight as putoutWeight,
+      st.putout_quantity as putoutQuantity,
+      st.piece_weight as pieceWeight,
+      st.manufacture_date as manufactureDate,
+      st.overdue_date as overdueDate,
+      st.purchase_price as purchasePrice,
+      st.purchase_amount as purchaseAmount,
+      st.shop_id as shopId,
+      st.create_user as createUser,
+      st.create_date as createDate,
+      gs.goods_name as goodsName,
+      gs.goods_spec as goodsSpec
+    FROM
+      tb_stock st
+        INNER JOIN tb_user us ON st.shop_id = us.shop_id
+        INNER JOIN tb_goods gs ON st.goods_id = gs.goods_id
+    <where>
+      <if test="userId != null">
+        and us.user_id = #{userId}
+      </if>
+      <if test='goodsSku != null and goodsSku != ""'>
+        and st.goods_sku = #{goodsSku}
+      </if>
+      <if test='putStatus != null and putStatus != "" and putStatus == 10'>
+        and st.putin_weight = st.stock_weight
+      </if>
+      <if test='putStatus != null and putStatus != "" and putStatus == 20'>
+        and st.stock_weight > 0 and (st.put_weight > 0 or st.putout_weight > 0)
+      </if>
+      <if test='putStatus != null and putStatus != "" and putStatus == 30'>
+        and st.put_weight + st.putout_weight >= st.putin_weight
+      </if>
+      <if test='putinDate != null'>
+        and st.create_date >= timestamp(date_add(str_to_date(#{putinDate},'%Y-%m-%d %H'), interval - 0 day))
+        and st.create_date &lt;= DATE_SUB( DATE_ADD(str_to_date(#{putinDate},'%Y-%m-%d %H'), INTERVAL 1 DAY),INTERVAL 1 SECOND)
+      </if>
+    </where>
+
+  </select>
+</mapper>

@@ -33,6 +33,10 @@ public class BaseCommand implements Serializable {
         this.pageNum = pageNum;
     }
 
+    public void setPageNo(Integer pageNo) {
+        this.pageNum = pageNo;
+    }
+
     public Integer getPageSize() {
         if(ObjectUtil.isEmpty(pageSize)){
             return 10;

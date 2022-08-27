@@ -51,7 +51,13 @@ public class PermissionCheck implements Filter {
             log.info("log-------:{}", bool);
         }
         if(bool){
-            filterChain.doFilter(servletRequest, servletResponse);
+            try{
+                filterChain.doFilter(servletRequest, servletResponse);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw e;
+            }
+
         }else{
             String method = request.getMethod();
             if("POST".equals(method)){
