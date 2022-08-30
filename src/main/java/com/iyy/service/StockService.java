@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.iyy.entity.Stock;
 import com.iyy.service.params.QueryStockListParams;
 import com.iyy.service.params.SaveStockParams;
+import com.iyy.service.params.UpdateStockParams;
 import com.iyy.vo.StockListInfo;
 
 /**
@@ -27,4 +28,11 @@ public interface StockService {
      * @throws Exception
      */
     public int saveStock(SaveStockParams saveStockParams) throws Exception;
+
+    /**
+     * 修改库存
+     * @param updateStockParams
+     * @return
+     */
+    int updateStock(UpdateStockParams updateStockParams) throws Exception;
 }

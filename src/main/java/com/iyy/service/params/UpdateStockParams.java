@@ -1,19 +1,21 @@
 package com.iyy.service.params;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
- * 库存新增参数
+ * 库存修改参数
  * @author xuhualong
  * @version 1.0
  * @since 2022/8/27 3:30 下午
  */
 @Data
-public class SaveStockParams {
+public class UpdateStockParams {
+    /**
+     * 库存ID
+     */
+    private Integer stockId;
 
     /**
      * 商品ID

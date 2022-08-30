@@ -51,8 +51,12 @@
       st.shop_id as shopId,
       st.create_user as createUser,
       st.create_date as createDate,
+      st.remark as remark,
       gs.goods_name as goodsName,
-      gs.goods_spec as goodsSpec
+      gs.goods_spec as goodsSpec,
+      gs.goods_type_id as goodsTypeId,
+      gs.sales_method as salesMethod,
+      gs.goods_unit as goodsUnit
     FROM
       tb_stock st
         INNER JOIN tb_user us ON st.shop_id = us.shop_id
@@ -65,19 +69,24 @@
         and st.goods_sku = #{goodsSku}
       </if>
       <if test='putStatus != null and putStatus != "" and putStatus == 10'>
-        and st.putin_weight = st.stock_weight
+        and st.put_weight = 0 and st.stock_weight = st.putin_weight
       </if>
       <if test='putStatus != null and putStatus != "" and putStatus == 20'>
-        and st.stock_weight > 0 and (st.put_weight > 0 or st.putout_weight > 0)
+        and st.stock_weight > 0 and (st.put_weight > 0 or st.putout_weight > 0) and st.stock_weight > st.put_weight
       </if>
       <if test='putStatus != null and putStatus != "" and putStatus == 30'>
         and st.put_weight + st.putout_weight >= st.putin_weight
       </if>
       <if test='putinDate != null'>
-        and st.create_date >= timestamp(date_add(str_to_date(#{putinDate},'%Y-%m-%d %H'), interval - 0 day))
-        and st.create_date &lt;= DATE_SUB( DATE_ADD(str_to_date(#{putinDate},'%Y-%m-%d %H'), INTERVAL 1 DAY),INTERVAL 1 SECOND)
+        and st.create_date >= str_to_date(DATE_FORMAT(str_to_date(#{putinDate},'%Y-%m-%d %H'),'%Y-%m-%d'),'%Y-%m-%d %H:%i:%s')
+        and st.create_date &lt;= DATE_ADD(DATE_ADD(str_to_date(DATE_FORMAT(str_to_date(#{putinDate},'%Y-%m-%d %H'),'%Y-%m-%d'),'%Y-%m-%d %H:%i:%s'),INTERVAL 1 DAY),INTERVAL -1 SECOND)
       </if>
     </where>
 
   </select>
+
+  <update id="updateStockPutWeight">
+    update tb_stock set put_weight = put_weight + #{putWeight}, put_quantity = put_quantity + #{putQuantity}
+    where stock_id = #{stockId}
+  </update>
 </mapper>

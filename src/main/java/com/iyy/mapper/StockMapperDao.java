@@ -12,4 +12,11 @@ public interface StockMapperDao extends StockMapper{
      * @return
      */
     public List<StockListInfo> queryStockList(QueryStockListParams queryStockListParams);
+
+    /**
+     * 修改库存投放重量
+     * @param stock
+     * @return
+     */
+    public int updateStockPutWeight(Stock stock);
 }

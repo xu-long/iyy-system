@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.GoodsPutMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.GoodsPut">
+    <id column="goods_put_id" jdbcType="INTEGER" property="goodsPutId" />
+    <result column="stock_id" jdbcType="INTEGER" property="stockId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="goods_shelves_id" jdbcType="INTEGER" property="goodsShelvesId" />
+    <result column="can_sales_weight" jdbcType="DOUBLE" property="canSalesWeight" />
+    <result column="can_sales_quantity" jdbcType="INTEGER" property="canSalesQuantity" />
+    <result column="sales_price" jdbcType="DECIMAL" property="salesPrice" />
+    <result column="put_date" jdbcType="TIMESTAMP" property="putDate" />
+    <result column="put_user" jdbcType="VARCHAR" property="putUser" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_put_id, stock_id, shop_id, goods_shelves_id, can_sales_weight, can_sales_quantity, 
+    sales_price, put_date, put_user, create_user, create_date, modify_user, modify_date
+  </sql>
+  <select id="queryGoodsPutByStockId" resultMap="BaseResultMap">
+    select * from tb_goods_put where stock_id = #{stockId}
+  </select>
+  <select id="queryGoodsPutByGoodsId" resultMap="BaseResultMap">
+    select * from tb_goods_put where goods_id = #{goodsId} and can_sales_weight > 0
+  </select>
+  <update id="updateGoodsPutSalesPrice" >
+    update tb_goods_put set sales_price = #{salesPrice}
+    where
+    goods_put_id IN
+    <foreach collection="goodsPutIds" item="goodsPutId" index="index"
+             open="(" close=")" separator=",">
+      #{goodsPutId}
+    </foreach>
+  </update>
+  <update id="updateGoodsPutAndStock">
+    update tb_goods_put p inner join tb_stock s on p.goods_Id = s.goods_Id
+    <set>
+        <if test="putWeight != null">
+          p.can_sales_weight = p.can_sales_weight + #{putWeight},
+          s.put_weight = s.put_weight + #{putWeight},
+        </if>
+        <if test="putQuantity != null">
+          p.can_sales_quantity = p.can_sales_quantity + #{putQuantity},
+          s.put_quantity = s.put_quantity + #{putQuantity},
+        </if>
+        <if test="salesPrice != null">
+          s.sales_price = #{salesPrice},
+        </if>
+        <if test="goodsShelvesId != null">
+          s.goods_shelves_id = #{goodsShelvesId},
+        </if>
+    </set>
+    where
+        s.stock_id = #{stockId}
+  </update>
+</mapper>

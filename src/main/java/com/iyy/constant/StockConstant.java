@@ -8,19 +8,15 @@ package com.iyy.constant;
  */
 public class StockConstant {
     /**
-     * 按量购买
+     * 称重
      */
     public final static String SALES_METHOD_WEIGHT = "10";
 
     /**
-     * 按件购买
+     * 按件
      */
     public final static String SALESMETHOD_QUANTITY = "20";
 
-    /**
-     * 整体购买
-     */
-    public final static String SALESMETHOD_ALL = "30";
 
     /*
      * 标准金额保留小数位数-2位小数

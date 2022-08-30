@@ -21,4 +21,19 @@ public class StockListInfo extends Stock implements Serializable {
      * 商品规格
      */
     private String goodsSpec;
+
+    /**
+     * 商品类别Id
+     */
+    private Integer goodsTypeId;
+
+    /**
+     * 销售方式
+     */
+    private String salesMethod;
+
+    /**
+     * 商品单位
+     */
+    private String goodsUnit;
 }

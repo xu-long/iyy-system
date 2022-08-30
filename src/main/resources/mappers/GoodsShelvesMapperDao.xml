@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.GoodsShelvesMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.GoodsShelves">
+    <id column="goods_shelves_id" jdbcType="INTEGER" property="goodsShelvesId" />
+    <result column="goods_shelves_location" jdbcType="VARCHAR" property="goodsShelvesLocation" />
+    <result column="goods_shelves_col" jdbcType="INTEGER" property="goodsShelvesCol" />
+    <result column="goods_shelves_row" jdbcType="INTEGER" property="goodsShelvesRow" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_shelves_id, goods_shelves_location, goods_shelves_col, goods_shelves_row, shop_id, 
+    create_user, create_date
+  </sql>
+
+  <select id="queryGoodsShelvesList" resultMap="BaseResultMap">
+    select * from tb_goods_shelves where shop_id = #{shopId}
+  </select>
+</mapper>

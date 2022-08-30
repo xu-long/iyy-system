@@ -5,11 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.iyy.command.QueryStockListCommand;
 import com.iyy.command.SaveStockCommand;
+import com.iyy.command.UpdateStockCommand;
 import com.iyy.constant.StatusConstant;
 import com.iyy.entity.Stock;
 import com.iyy.service.StockService;
 import com.iyy.service.params.QueryStockListParams;
 import com.iyy.service.params.SaveStockParams;
+import com.iyy.service.params.UpdateStockParams;
 import com.iyy.utils.tools.ValidationUtil;
 import com.iyy.vo.StockListInfo;
 import com.iyy.vo.UserMenuInfo;
@@ -40,7 +42,6 @@ public class StockController {
      */
     @GetMapping("/queryStockList")
     public Map<String, Object> queryStockList(QueryStockListCommand queryStockListCommand){
-        log.info("查看库存列表信息");
         log.info("queryStockListCommand:{}", JSON.toJSONString(queryStockListCommand));
         Map<String, Object> map = new HashMap<>();
         try {
@@ -85,6 +86,29 @@ public class StockController {
             e.printStackTrace();
             map.put("code", StatusConstant.failCode);
             map.put("message", "商品入库失败！" + e.getMessage());
+        }
+        return map;
+    }
+
+    @PostMapping("/updateStock")
+    public Map<String, Object> updateStock(UpdateStockCommand updateStockCommand){
+        Map<String, Object> map = new HashMap<>();
+        log.info("修改库存params:{}", JSON.toJSONString(updateStockCommand));
+        try{
+            ValidationUtil.validateBean(updateStockCommand);
+            UpdateStockParams updateStockParams = new UpdateStockParams();
+            BeanUtil.copyProperties(updateStockCommand, updateStockParams);
+            int rows = stockService.updateStock(updateStockParams);
+            if(rows > 0){
+                map.put("code", StatusConstant.successCode);
+                map.put("message", "库存修改成功！");
+            }else{
+                throw new RuntimeException("修改失败！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("code", StatusConstant.failCode);
+            map.put("message", "库存修改失败！" + e.getMessage());
         }
         return map;
     }

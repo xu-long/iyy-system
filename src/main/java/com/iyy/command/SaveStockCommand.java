@@ -23,12 +23,6 @@ public class SaveStockCommand implements Serializable {
     private Integer goodsId;
 
     /**
-     * 商品类别ID
-     */
-    @NotNull(message = "商品类别Id不能为空！")
-    private Integer goodsTypeId;
-
-    /**
      * 商品重量
      */
     @NotNull(message = "商品重量不能为空！")
