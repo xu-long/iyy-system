@@ -36,4 +36,44 @@
         tb_goods
   </select>
 
+  <select id="queryGoodsInfoList" resultType="com.iyy.vo.GoodsListInfo" parameterType="com.iyy.service.params.QueryGoodsListParams">
+    select
+      g.goods_id as goodsId,
+      g.goods_name as goodsName,
+      g.goods_sku as goodsSku,
+      g.goods_type_id as goodsTypeId,
+      g.goods_brand_id as goodsBrandId,
+      g.goods_spec as goodsSpec,
+      g.goods_weight as goodsWeight,
+      g.goods_quantity as goods_quantity,
+      g.goods_unit as goodsUnit,
+      g.piece_weight as pieceWeight,
+      g.goods_manufacture as goodsManufacture,
+      g.sales_method as salesMethod,
+      g.create_user as createUser,
+      g.create_date as createDate,
+      gt.goods_type_name as goodsTypeName,
+      b.brand_name as brandName,
+      CASE WHEN g.sales_method = '10' THEN '称重' ELSE '按件' END AS salesMethodStr
+    from tb_goods g
+    inner join tb_goods_type gt
+    on g.goods_type_id = gt.goods_type_id
+    inner join tb_brand b on g.goods_brand_id = b.brand_id
+    <where>
+      <if test='goodsSku != null and goodsSku != "" '>
+        and (g.goods_name like concat(#{goodsSku}, '%') or g.goods_sku = #{goodsSku})
+      </if>
+      <if test="brandId != null">
+        and g.brand_id = #{brandId}
+      </if>
+      <if test="goodsTypeId != null">
+        and g.goods_type_id = #{goodsTypeId}
+      </if>
+    </where>
+  </select>
+
+  <select id="queryGoodsBySku" resultMap="BaseResultMap">
+    select * from tb_goods where goods_sku = #{goodsSku}
+  </select>
+
 </mapper>

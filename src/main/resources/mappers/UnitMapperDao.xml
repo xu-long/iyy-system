@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.UnitMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.Unit">
+    <id column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_type_code" jdbcType="VARCHAR" property="unitTypeCode" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    unit_id, unit_name, unit_type_code, create_user, create_date
+  </sql>
+  <select id="queryUnitByUnitTypeCode" resultMap="BaseResultMap">
+    select * from tb_unit where unit_type_code = #{unitTypeCode} and unit_name = #{unitName}
+  </select>
+  <select id="queryUnitListByCode" resultMap="BaseResultMap">
+    select * from tb_unit where unit_type_code = #{unitTypeCode}
+  </select>
+  <select id="queryUnitListPage" resultMap="BaseResultMap">
+    select
+        *
+    from tb_unit
+    <where>
+      <if test="unitTypeCode != null and unitTypeCode != ''">
+        and unit_type_code = #{unitTypeCode}
+      </if>
+      <if test="unitName != null and unitName != ''">
+        and unit_name = #{unitName}
+      </if>
+    </where>
+  </select>
+</mapper>

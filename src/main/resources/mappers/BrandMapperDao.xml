@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyy.mapper.BrandMapperDao">
+  <resultMap id="BaseResultMap" type="com.iyy.entity.Brand">
+    <id column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    brand_id, brand_name, telephone, phone_number, contacts, address, remark, create_user, 
+    create_date, modify_user, modify_date
+  </sql>
+  <select id="queryBrandList" resultMap="BaseResultMap">
+    select * from tb_brand
+  </select>
+  <select id="queryBrandListByName" resultMap="BaseResultMap">
+    select * from tb_brand 
+        <where>
+          <if test="brandName != null and brandName != '' ">
+            brand_name LIKE concat(#{brandName}, '%')
+          </if>
+        </where>
+  </select>
+  <select id="queryBrandByBrandName" resultMap="BaseResultMap">
+    select * from tb_brand where brand_name = #{brandName}
+  </select>
+  
+</mapper>

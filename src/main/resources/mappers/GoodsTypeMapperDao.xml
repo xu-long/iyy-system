@@ -16,4 +16,20 @@
     from
         tb_goods_type
   </select>
+
+  <select id="queryGoodsTypeListByName" resultMap="BaseResultMap">
+    select
+      *
+    from
+      tb_goods_type
+    <where>
+      <if test="goodsTypeName != null and goodsTypeName != ''">
+        and goods_type_name like concat(#{goodsTypeName}, '%')
+      </if>
+    </where>
+  </select>
+
+  <select id="queryGoodsTypeByName" resultMap="BaseResultMap">
+    select * from tb_goods_type where goods_type_name = #{goodsTypeName}
+  </select>
 </mapper>
